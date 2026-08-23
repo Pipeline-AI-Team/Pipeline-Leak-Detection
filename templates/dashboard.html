@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pipeline AI Monitor</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">P</div>
+
+            <div>
+                <h2>Pipeline AI</h2>
+                <span>MONITOR</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="#" class="nav-item active">
+                <span>▣</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>◉</span>
+                Live Monitoring
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>◈</span>
+                Analytics
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>▤</span>
+                History
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>⚠</span>
+                Alerts
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="connection">
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>ESP32</strong>
+                    <small>Connected</small>
+                </div>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Top Navbar -->
+        <header class="topbar">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p>Real-time pipeline monitoring system</p>
+            </div>
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+                SYSTEM ONLINE
+            </div>
+
+        </header>
+
+
+        <!-- Dashboard -->
+        <section class="dashboard">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Pipeline Overview</h2>
+                    <p>Live sensor readings</p>
+                </div>
+            </div>
+
+
+            <!-- Sensor Cards -->
+            <div class="sensor-grid">
+
+                <!-- Gas -->
+                <div class="sensor-card">
+
+                    <div class="card-top">
+                        <span>Gas Concentration</span>
+                        <div class="sensor-icon gas-icon">G</div>
+                    </div>
+
+                    <div class="sensor-value">
+                        42
+                        <span>ppm</span>
+                    </div>
+
+                    <div class="sensor-status safe">
+                        ● Normal
+                    </div>
+
+                </div>
+
+
+                <!-- Pressure -->
+                <div class="sensor-card">
+
+                    <div class="card-top">
+                        <span>Pipeline Pressure</span>
+                        <div class="sensor-icon pressure-icon">P</div>
+                    </div>
+
+                    <div class="sensor-value">
+                        2.4
+                        <span>bar</span>
+                    </div>
+
+                    <div class="sensor-status safe">
+                        ● Normal
+                    </div>
+
+                </div>
+
+
+                <!-- Temperature -->
+                <div class="sensor-card">
+
+                    <div class="card-top">
+                        <span>Temperature</span>
+                        <div class="sensor-icon temperature-icon">T</div>
+                    </div>
+
+                    <div class="sensor-value">
+                        28.5
+                        <span>°C</span>
+                    </div>
+
+                    <div class="sensor-status safe">
+                        ● Normal
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Lower Cards -->
+            <div class="lower-grid">
+
+                <!-- AI Prediction -->
+                <div class="panel prediction-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <span class="panel-label">MACHINE LEARNING</span>
+                            <h2>AI Prediction</h2>
+                        </div>
+
+                        <span class="ai-badge">RANDOM FOREST</span>
+                    </div>
+
+                    <div class="prediction-content">
+
+                        <div class="prediction-status">
+                            <div class="prediction-icon">
+                                ✓
+                            </div>
+
+                            <div>
+                                <span>Current Condition</span>
+                                <h3>SAFE</h3>
+                            </div>
+                        </div>
+
+                        <div class="confidence">
+                            <span>Confidence</span>
+
+                            <strong>96.4%</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Alert -->
+                <div class="panel alert-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-label">SYSTEM</span>
+                            <h2>Alert Status</h2>
+                        </div>
+
+                        <span class="alert-icon">✓</span>
+
+                    </div>
+
+                    <div class="alert-message">
+
+                        <strong>No Active Leak</strong>
+
+                        <p>
+                            All monitored pipeline parameters
+                            are currently within normal range.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
