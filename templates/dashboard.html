@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Pipeline AI Monitor</title>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}"
-    >
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
 
-    <!-- Sidebar -->
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
     <aside class="sidebar">
 
+        <!-- Logo -->
         <div class="logo">
-            <div class="logo-icon">P</div>
+
+            <div class="logo-icon">
+                P
+            </div>
 
             <div>
                 <h2>Pipeline AI</h2>
                 <span>MONITOR</span>
             </div>
+
         </div>
 
+
+        <!-- Navigation -->
         <nav class="sidebar-nav">
 
             <a href="#" class="nav-item active">
@@ -55,15 +68,19 @@
 
         </nav>
 
+
+        <!-- ESP32 Connection -->
         <div class="sidebar-bottom">
 
             <div class="connection">
+
                 <span class="status-dot"></span>
 
                 <div>
                     <strong>ESP32</strong>
                     <small>Connected</small>
                 </div>
+
             </div>
 
         </div>
@@ -71,94 +88,172 @@
     </aside>
 
 
-    <!-- Main Content -->
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
     <main class="main-content">
+
 
         <!-- Top Navbar -->
         <header class="topbar">
 
             <div>
+
                 <h1>Dashboard</h1>
-                <p>Real-time pipeline monitoring system</p>
+
+                <p>
+                    Real-time pipeline monitoring system
+                </p>
+
             </div>
 
+
+            <!-- System Status -->
             <div class="system-status">
+
                 <span class="status-dot"></span>
+
                 SYSTEM ONLINE
+
             </div>
 
         </header>
 
 
-        <!-- Dashboard -->
+        <!-- =========================
+             DASHBOARD CONTENT
+        ========================== -->
+
         <section class="dashboard">
 
+
+            <!-- Pipeline Overview -->
             <div class="section-heading">
+
                 <div>
+
                     <h2>Pipeline Overview</h2>
-                    <p>Live sensor readings</p>
+
+                    <p>
+                        Live sensor readings
+                    </p>
+
                 </div>
+
             </div>
 
 
-            <!-- Sensor Cards -->
+            <!-- =========================
+                 SENSOR CARDS
+            ========================== -->
+
             <div class="sensor-grid">
 
-                <!-- Gas -->
+
+                <!-- GAS -->
                 <div class="sensor-card">
 
                     <div class="card-top">
-                        <span>Gas Concentration</span>
-                        <div class="sensor-icon gas-icon">G</div>
+
+                        <span>
+                            Gas Concentration
+                        </span>
+
+                        <div class="sensor-icon gas-icon">
+                            G
+                        </div>
+
                     </div>
 
+
                     <div class="sensor-value">
+
                         42
-                        <span>ppm</span>
+
+                        <span>
+                            ppm
+                        </span>
+
                     </div>
 
+
                     <div class="sensor-status safe">
+
                         ● Normal
+
                     </div>
 
                 </div>
 
 
-                <!-- Pressure -->
+                <!-- PRESSURE -->
                 <div class="sensor-card">
 
                     <div class="card-top">
-                        <span>Pipeline Pressure</span>
-                        <div class="sensor-icon pressure-icon">P</div>
+
+                        <span>
+                            Pipeline Pressure
+                        </span>
+
+                        <div class="sensor-icon pressure-icon">
+                            P
+                        </div>
+
                     </div>
 
+
                     <div class="sensor-value">
+
                         2.4
-                        <span>bar</span>
+
+                        <span>
+                            bar
+                        </span>
+
                     </div>
 
+
                     <div class="sensor-status safe">
+
                         ● Normal
+
                     </div>
 
                 </div>
 
 
-                <!-- Temperature -->
+                <!-- TEMPERATURE -->
                 <div class="sensor-card">
 
                     <div class="card-top">
-                        <span>Temperature</span>
-                        <div class="sensor-icon temperature-icon">T</div>
+
+                        <span>
+                            Temperature
+                        </span>
+
+                        <div class="sensor-icon temperature-icon">
+                            T
+                        </div>
+
                     </div>
+
 
                     <div class="sensor-value">
+
                         28.5
-                        <span>°C</span>
+
+                        <span>
+                            °C
+                        </span>
+
                     </div>
 
+
                     <div class="sensor-status safe">
+
                         ● Normal
+
                     </div>
 
                 </div>
@@ -166,38 +261,125 @@
             </div>
 
 
-            <!-- Lower Cards -->
+            <!-- =========================
+                 SENSOR TREND GRAPH
+            ========================== -->
+
+            <div class="panel chart-panel">
+
+
+                <!-- Chart Header -->
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            REAL-TIME DATA
+                        </span>
+
+                        <h2>
+                            Sensor Trends
+                        </h2>
+
+                    </div>
+
+
+                    <span class="chart-status">
+
+                        ● LIVE
+
+                    </span>
+
+                </div>
+
+
+                <!-- Chart -->
+                <div class="chart-container">
+
+                    <canvas id="sensorChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 LOWER PANELS
+            ========================== -->
+
             <div class="lower-grid">
 
-                <!-- AI Prediction -->
+
+                <!-- =========================
+                     AI PREDICTION
+                ========================== -->
+
                 <div class="panel prediction-panel">
 
+
                     <div class="panel-header">
+
                         <div>
-                            <span class="panel-label">MACHINE LEARNING</span>
-                            <h2>AI Prediction</h2>
+
+                            <span class="panel-label">
+                                MACHINE LEARNING
+                            </span>
+
+                            <h2>
+                                AI Prediction
+                            </h2>
+
                         </div>
 
-                        <span class="ai-badge">RANDOM FOREST</span>
+
+                        <span class="ai-badge">
+
+                            RANDOM FOREST
+
+                        </span>
+
                     </div>
+
 
                     <div class="prediction-content">
 
+
+                        <!-- Prediction Status -->
                         <div class="prediction-status">
+
                             <div class="prediction-icon">
+
                                 ✓
+
                             </div>
+
 
                             <div>
-                                <span>Current Condition</span>
-                                <h3>SAFE</h3>
+
+                                <span>
+                                    Current Condition
+                                </span>
+
+                                <h3>
+                                    SAFE
+                                </h3>
+
                             </div>
+
                         </div>
 
-                        <div class="confidence">
-                            <span>Confidence</span>
 
-                            <strong>96.4%</strong>
+                        <!-- Confidence -->
+                        <div class="confidence">
+
+                            <span>
+                                Confidence
+                            </span>
+
+                            <strong>
+                                96.4%
+                            </strong>
+
                         </div>
 
                     </div>
@@ -205,27 +387,48 @@
                 </div>
 
 
-                <!-- Alert -->
+                <!-- =========================
+                     ALERT STATUS
+                ========================== -->
+
                 <div class="panel alert-panel">
+
 
                     <div class="panel-header">
 
                         <div>
-                            <span class="panel-label">SYSTEM</span>
-                            <h2>Alert Status</h2>
+
+                            <span class="panel-label">
+                                SYSTEM
+                            </span>
+
+                            <h2>
+                                Alert Status
+                            </h2>
+
                         </div>
 
-                        <span class="alert-icon">✓</span>
+
+                        <span class="alert-icon">
+
+                            ✓
+
+                        </span>
 
                     </div>
 
+
                     <div class="alert-message">
 
-                        <strong>No Active Leak</strong>
+                        <strong>
+                            No Active Leak
+                        </strong>
 
                         <p>
+
                             All monitored pipeline parameters
                             are currently within normal range.
+
                         </p>
 
                     </div>
@@ -238,5 +441,13 @@
 
     </main>
 
+
+    <!-- =========================
+         DASHBOARD JAVASCRIPT
+    ========================== -->
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
 </body>
+
 </html>
