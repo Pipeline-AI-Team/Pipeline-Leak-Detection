@@ -41,27 +41,27 @@
         <!-- Navigation -->
         <nav class="sidebar-nav">
 
-            <a href="#" class="nav-item active">
+            <a href="#" class="nav-item active" data-page="dashboard">
                 <span>▣</span>
                 Dashboard
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item" data-page="live-monitoring">
                 <span>◉</span>
                 Live Monitoring
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item" data-page="analytics">
                 <span>◈</span>
                 Analytics
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item" data-page="history">
                 <span>▤</span>
                 History
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item" data-page="alerts">
                 <span>⚠</span>
                 Alerts
             </a>
@@ -95,37 +95,39 @@
     <main class="main-content">
 
 
-        <!-- Top Navbar -->
-        <header class="topbar">
+        <!-- ===========================
+             PAGE: DASHBOARD
+        ============================ -->
+        <div id="dashboard" class="page-section">
 
-            <div>
+            <!-- Top Navbar -->
+            <header class="topbar">
 
-                <h1>Dashboard</h1>
+                <div>
 
-                <p>
-                    Real-time pipeline monitoring system
-                </p>
+                    <h1>Dashboard</h1>
 
-            </div>
+                    <p>
+                        Real-time pipeline monitoring system
+                    </p>
 
-
-            <!-- System Status -->
-            <div class="system-status">
-
-                <span class="status-dot"></span>
-
-                SYSTEM ONLINE
-
-            </div>
-
-        </header>
+                </div>
 
 
-        <!-- =========================
-             DASHBOARD CONTENT
-        ========================== -->
+                <!-- System Status -->
+                <div class="system-status">
 
-        <section class="dashboard">
+                    <span class="status-dot"></span>
+
+                    SYSTEM ONLINE
+
+                </div>
+
+            </header>
+
+
+            <!-- Dashboard Content -->
+            <section class="dashboard">
 
 
             <!-- Pipeline Overview -->
@@ -439,14 +441,118 @@
 
         </section>
 
+        </div>
+
+
+        <!-- ===========================
+             PAGE: LIVE MONITORING
+        ============================ -->
+        <div id="live-monitoring" class="page-section" style="display: none;">
+
+            <header class="topbar">
+                <div>
+                    <h1>Live Monitoring</h1>
+                    <p>Real-time sensor data stream</p>
+                </div>
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    STREAMING
+                </div>
+            </header>
+
+            <section class="live-monitoring-content">
+                <p style="text-align: center; padding: 40px; color: #999;">
+                    Live Monitoring page content coming soon...
+                </p>
+            </section>
+
+        </div>
+
+
+        <!-- ===========================
+             PAGE: ANALYTICS
+        ============================ -->
+        <div id="analytics" class="page-section" style="display: none;">
+
+            <header class="topbar">
+                <div>
+                    <h1>Analytics</h1>
+                    <p>Detailed statistics and insights</p>
+                </div>
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    SYSTEM ONLINE
+                </div>
+            </header>
+
+            <section class="analytics-content">
+                <p style="text-align: center; padding: 40px; color: #999;">
+                    Analytics page content coming soon...
+                </p>
+            </section>
+
+        </div>
+
+
+        <!-- ===========================
+             PAGE: HISTORY
+        ============================ -->
+        <div id="history" class="page-section" style="display: none;">
+
+            <header class="topbar">
+                <div>
+                    <h1>History</h1>
+                    <p>Historical logs and events</p>
+                </div>
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    SYSTEM ONLINE
+                </div>
+            </header>
+
+            <section class="history-content">
+                <p style="text-align: center; padding: 40px; color: #999;">
+                    History page content coming soon...
+                </p>
+            </section>
+
+        </div>
+
+
+        <!-- ===========================
+             PAGE: ALERTS
+        ============================ -->
+        <div id="alerts" class="page-section" style="display: none;">
+
+            <header class="topbar">
+                <div>
+                    <h1>Alerts</h1>
+                    <p>Alert management and configuration</p>
+                </div>
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    SYSTEM ONLINE
+                </div>
+            </header>
+
+            <section class="alerts-content">
+                <p style="text-align: center; padding: 40px; color: #999;">
+                    Alerts page content coming soon...
+                </p>
+            </section>
+
+        </div>
+
     </main>
 
 
     <!-- =========================
-         DASHBOARD JAVASCRIPT
+         SCRIPTS
     ========================== -->
 
+    <script src="{{ url_for('static', filename='js/router.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>
 
