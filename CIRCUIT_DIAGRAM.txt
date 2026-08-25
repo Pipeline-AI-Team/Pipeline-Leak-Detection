@@ -1,0 +1,278 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║          PIPELINE LEAK DETECTION - ESP32 CIRCUIT DIAGRAM                   ║
+║                                                                            ║
+║  Sensors: MQ-4/MQ-5 (Gas), BMP280 (Pressure), DHT22 (Temperature)        ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+                              ┌─────────────────┐
+                              │     ESP32       │
+                              │   Dev Board     │
+                              └────────┬────────┘
+                                       │
+                   ┌───────────────────┼───────────────────┐
+                   │                   │                   │
+                   │         ┌─────────┴─────────┐         │
+                   │         │   Pinout Guide    │         │
+                   │         └───────────────────┘         │
+                   │                   │                   │
+          ┌────────┴────────┐  ┌───────┴────────┐  ┌──────┴────────┐
+          │   POWER PINS    │  │   GPIO PINS    │  │  I2C PINS     │
+          ├─────────────────┤  ├────────────────┤  ├───────────────┤
+          │ 3.3V (OUT)      │  │ GPIO 34 (ADC)  │  │ GPIO 21 (SDA) │
+          │ GND (2)         │  │ GPIO 35 (ADC)  │  │ GPIO 22 (SCL) │
+          │ 5V (USB)        │  │ GND (3)        │  │ GND (3)       │
+          └─────────────────┘  └────────────────┘  └───────────────┘
+                   │                   │                   │
+                   └───────────────────┼───────────────────┘
+                                       │
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        CIRCUIT 1: GAS SENSOR (MQ-4/MQ-5)                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│                    MQ-4/MQ-5 GAS SENSOR MODULE                             │
+│                   ┌──────────────────────────┐                             │
+│                   │    [====] [====]  DO     │ ← Digital Out (unused)      │
+│                   │    [====] [====]  A0     │ ← Analog Out (use this)     │
+│                   │    [====] [====]  GND    │                             │
+│                   │    [====] [====]  VCC    │                             │
+│                   └──┬───────────────────┬───┘                             │
+│                      │                   │                                 │
+│              (Red)   │          (Black)  │                                 │
+│                      │                   │                                 │
+│                      └──────────┬────────┘                                 │
+│                                 │                                          │
+│         ┌───────────────────────┴──────────────────────┐                  │
+│         │                                              │                  │
+│         │                                          ┌───┴────┐             │
+│         │                                          │   A0   │             │
+│         │                                          │ (Sig)  │             │
+│         │                                          └───┬────┘             │
+│         │                                              │                  │
+│    ┌────┴─────┐ 10K Resistor                    ┌──────┴──────┐          │
+│    │   3.3V   │ (Optional Voltage Divider)       │   GPIO 34   │          │
+│    │ (Yellow) ├──────[R 10K]────────────────┤   │   (ADC CH6) │          │
+│    │          │                             │   │             │          │
+│    └──────────┘                             │   └─────────────┘          │
+│                                             │                             │
+│    ┌──────────┐                             │                             │
+│    │   GND    ├─────────────────────────────┤   ┌─────────────┐          │
+│    │ (Black)  │                             └───│   GND       │          │
+│    └──────────┘                                 │             │          │
+│                                                 └─────────────┘          │
+│                                                                           │
+│  Note: Voltage Divider 10K resistor is OPTIONAL but recommended to       │
+│  protect GPIO 34 from overvoltage if MQ sensor outputs > 3.3V            │
+│                                                                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│              CIRCUIT 2: PRESSURE SENSOR (BMP280 - I2C)                      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│                      BMP280 PRESSURE SENSOR                                │
+│                    ┌──────────────────────┐                               │
+│                    │  [  BMP280  MODULE  ]│                               │
+│                    │                      │                               │
+│                    │  VCC  ← Power (3.3V) │                               │
+│                    │  GND  ← Ground       │                               │
+│                    │  SDA  ← I2C Data     │                               │
+│                    │  SCL  ← I2C Clock    │                               │
+│                    │  CSB  ← CS (tie HIGH)│                               │
+│                    │  SDO  ← 0x76/0x77   │                               │
+│                    └──┬───┬───┬───┬───┬───┘                               │
+│                       │   │   │   │   │                                   │
+│        ┌──────────────┘   │   │   │   └───────────────────┐              │
+│        │                  │   │   │                       │              │
+│    ┌───┴────┐          ┌──┴───┴──┴───┐              ┌─────┴────┐        │
+│    │  3.3V  │          │  I2C PINS   │              │   GND    │        │
+│    │ (Red)  │          │             │              │ (Black)  │        │
+│    └───┬────┘          │ SDA: GPIO21 │              └─────┬────┘        │
+│        │               │ SCL: GPIO22 │                    │              │
+│        │               └──┬──────┬───┘                    │              │
+│        │                  │      │                        │              │
+│        │          ┌───────┘      └───────┐               │              │
+│        │          │                      │               │              │
+│   ┌────┴──────────┼──────────────────────┼───────────────┴────┐        │
+│   │               │                      │                    │        │
+│   │          ┌────┴─────┐            ┌───┴────┐         ┌──────┴──┐  │
+│   │          │  SDA     │            │  SCL   │         │  GND    │  │
+│   │          │ GPIO 21  │            │GPIO 22 │         │         │  │
+│   │          └────┬─────┘            └───┬────┘         └──────┬──┘  │
+│   │               │                      │                    │      │
+│   │               └──────┬───────────────┘                    │      │
+│   │                      │                                    │      │
+│   │          4.7K Pull-up Resistors                         │      │
+│   │          (Usually built-in on module)                   │      │
+│   │                                                          │      │
+│   └──────────────────────┬────────────────────────────────────┴──────┘
+│                          │
+│                    ┌─────┴──────┐
+│                    │   BMP280   │
+│                    │  Sensor    │
+│                    │  (I2C)     │
+│                    └────────────┘
+
+│  Address: 0x76 or 0x77 (depends on SDO pin)                             │
+│  I2C Communication: 400 kHz typical                                     │
+│  Power: 3.3V only (NOT 5V!)                                             │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│          CIRCUIT 3: TEMPERATURE & HUMIDITY SENSOR (DHT22)                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│                         DHT22 SENSOR MODULE                                │
+│                    ┌──────────────────────┐                               │
+│                    │    [DHT22 SENSOR]    │                               │
+│                    │                      │                               │
+│                    │  [1] VCC   ← 3.3V    │                               │
+│                    │  [2] DATA  ← Signal   │                               │
+│                    │  [3] NC    ← Not Used │                               │
+│                    │  [4] GND   ← Ground   │                               │
+│                    └──┬───┬────┬────┬──────┘                               │
+│                       │   │    │    │                                     │
+│                 (Red) │   │    │    │ (Black)                             │
+│                       │   │    │    │                                     │
+│                       │   │    │    └────────────┐                        │
+│                       │   │    │                 │                        │
+│    ┌──────────────┐   │   │    │     ┌──────────┴───────┐                │
+│    │    3.3V      ├───┤   │    └─────→ GPIO 4  (Signal) │                │
+│    │  (Power)     │   │   │           │ (Digital Input) │                │
+│    └──────────────┘   │   │           └────────┬────────┘                │
+│                       │   │                    │                         │
+│                       │   │    4.7K Pull-up    │                         │
+│                       │   │     Resistor       │                         │
+│                       │   │    ┌──────────┐    │                         │
+│                       │   └────┤  [4.7K]  ├────┘                         │
+│                       │        └──────────┘                               │
+│                       │                                                   │
+│    ┌──────────────┐   │                                                   │
+│    │    GND       ├───┘                                                   │
+│    │  (Ground)    │                                                       │
+│    └──────────────┘                                                       │
+│                                                                             │
+│  Communication: 1-wire protocol (single wire)                             │
+│  Sampling Rate: Once every 2 seconds minimum                              │
+│  Accuracy: ±2% RH, ±0.5°C                                                │
+│  Pull-up: 4.7K resistor on data line (usually built-in)                  │
+│                                                                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+╔═════════════════════════════════════════════════════════════════════════════╗
+║                      COMPLETE WIRING SUMMARY TABLE                          ║
+╠═════════════════════════════════════════════════════════════════════════════╣
+║                                                                             ║
+║  SENSOR           │ PIN NAME  │ ESP32 GPIO  │ NOTES                        ║
+║  ─────────────────┼───────────┼─────────────┼──────────────────────────    ║
+║  MQ-4/MQ-5 Gas    │ VCC       │ 3.3V        │ Power supply                 ║
+║                   │ GND       │ GND         │ Ground                       ║
+║                   │ A0        │ GPIO 34     │ ADC input (Analog)           ║
+║                   │ DO        │ (Unused)    │ Digital output (optional)    ║
+║  ─────────────────┼───────────┼─────────────┼──────────────────────────    ║
+║  BMP280 Pressure  │ VCC       │ 3.3V        │ Power supply                 ║
+║                   │ GND       │ GND         │ Ground                       ║
+║                   │ SDA       │ GPIO 21     │ I2C Data Line                ║
+║                   │ SCL       │ GPIO 22     │ I2C Clock Line               ║
+║                   │ SDO       │ GND or 3.3V │ Determines I2C address       ║
+║  ─────────────────┼───────────┼─────────────┼──────────────────────────    ║
+║  DHT22 Temp/Hum   │ VCC       │ 3.3V        │ Power supply                 ║
+║                   │ DATA      │ GPIO 4      │ One-wire protocol            ║
+║                   │ GND       │ GND         │ Ground                       ║
+║                   │ NC        │ (Not Used)  │ Not connected                ║
+║                                                                             ║
+╚═════════════════════════════════════════════════════════════════════════════╝
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        COMPLETE SCHEMATIC VIEW                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│                                                                             │
+│                            ┌──────────────┐                                │
+│                            │    3.3V      │                                │
+│                            │   (Shared)   │                                │
+│                            └───┬──┬──┬────┘                                │
+│                                │  │  │                                    │
+│         ┌──────────────────────┘  │  └─────────────────────┐              │
+│         │                         │                        │              │
+│         │                         │                        │              │
+│     ┌───┴────┐             ┌──────┴──────┐         ┌───────┴───┐          │
+│     │  MQ-4  │             │   BMP280    │         │  DHT22    │          │
+│     │  (Gas) │             │(Pressure)   │         │ (Temp)    │          │
+│     └───┬────┘             └──────┬──────┘         └───────┬───┘          │
+│         │                         │                        │              │
+│    ┌────┴─────┐          ┌────────┴────────┐       ┌───────┴──────┐       │
+│    │ GPIO 34  │          │  GPIO 21 (SDA)  │       │ GPIO 4       │       │
+│    │ (ADC)    │          │  GPIO 22 (SCL)  │       │ (One-wire)   │       │
+│    └────┬─────┘          └────────┬────────┘       └───────┬──────┘       │
+│         │                         │                        │              │
+│         │                         │                        │              │
+│         └────────────┬────────────┴────────────┬───────────┘              │
+│                      │                        │                          │
+│         ┌────────────┴────────────┬───────────┴──────────┐               │
+│         │                         │                     │               │
+│    ┌────┴───────────────────┐ ┌──┴──────────────┐  ┌───┴──────────┐     │
+│    │                        │ │                 │  │              │     │
+│    │       ESP32 Board      │ │                 │  │   Backend    │     │
+│    │   ┌─────────────────┐  │ │ WiFi Module     │  │   Server     │     │
+│    │   │  ADC Converter  │  │ │ (Built-in)      │  │              │     │
+│    │   │  I2C Master     │  │ │                 │  │  (Flask)     │     │
+│    │   │  GPIO Manager   │  │ │ USB → HTTP      │  │  :5000       │     │
+│    │   └────────┬────────┘  │ │ POST /api/      │  │              │     │
+│    │            │            │ │ sensor-data     │  │   CSV DB     │     │
+│    │   (Reads all signals)   │ └─────────────────┘  └──────────────┘     │
+│    └────────────┴────────────┘                                            │
+│                   │                                                       │
+│                   └─────► Processes & Logs Data ────► Backend             │
+│                                                      Flask API            │
+│                                                                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+╔═════════════════════════════════════════════════════════════════════════════╗
+║                     IMPORTANT NOTES & SAFETY PRECAUTIONS                    ║
+╠═════════════════════════════════════════════════════════════════════════════╣
+║                                                                             ║
+║  ⚠️  POWER SUPPLY:                                                          ║
+║    • Use only 3.3V for BMP280 and DHT22 (NOT 5V - will damage them)       ║
+║    • MQ-4/MQ-5 sensor can use 5V, but we'll use 3.3V for simplicity       ║
+║    • Good external 3.3V power supply recommended for stable readings       ║
+║                                                                             ║
+║  ⚠️  I2C PULL-UP RESISTORS:                                                 ║
+║    • 4.7K pull-up resistors for SDA and SCL lines                         ║
+║    • Most breakout modules have these built-in                            ║
+║    • Don't add extra resistors if already on module                       ║
+║                                                                             ║
+║  ⚠️  GPIO VOLTAGE LEVELS:                                                   ║
+║    • ESP32 GPIO pins accept 3.3V maximum                                  ║
+║    • Don't connect 5V sensors directly to GPIO pins                       ║
+║    • Use voltage divider (10K:10K) if sensor outputs 5V                   ║
+║                                                                             ║
+║  ⚠️  SENSOR PLACEMENT:                                                      ║
+║    • MQ-4 sensor needs 20-30s warm-up time after power on                 ║
+║    • Keep sensors away from vibrations and magnetic fields                ║
+║    • Ensure good ventilation around gas sensor                            ║
+║    • BMP280 should be at pipeline measurement point                       ║
+║    • DHT22 works best at 20-80% humidity, 0-50°C                          ║
+║                                                                             ║
+║  ⚠️  WIRING QUALITY:                                                        ║
+║    • Use good quality jumper wires (not thin/low gauge)                   ║
+║    • Keep wires short where possible (<1 meter)                           ║
+║    • Use breadboard correctly to avoid loose connections                  ║
+║    • Double-check all connections before power on                        ║
+║                                                                             ║
+║  ✅ TESTING BEFORE DEPLOYMENT:                                             ║
+║    • Test each sensor individually first                                  ║
+║    • Verify readings in Serial Monitor (baud 115200)                      ║
+║    • Check I2C address with I2C scanner sketch                            ║
+║    • Ensure WiFi connection works                                         ║
+║    • Log data to SD card as backup                                        ║
+║                                                                             ║
+╚═════════════════════════════════════════════════════════════════════════════╝
