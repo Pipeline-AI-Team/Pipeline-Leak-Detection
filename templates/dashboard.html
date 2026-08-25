@@ -452,18 +452,169 @@
             <header class="topbar">
                 <div>
                     <h1>Live Monitoring</h1>
-                    <p>Real-time sensor data stream</p>
+                    <p>Real-time sensor data stream with live updates</p>
                 </div>
                 <div class="system-status">
-                    <span class="status-dot"></span>
+                    <span class="status-dot live-indicator"></span>
                     STREAMING
                 </div>
             </header>
 
             <section class="live-monitoring-content">
-                <p style="text-align: center; padding: 40px; color: #999;">
-                    Live Monitoring page content coming soon...
-                </p>
+
+                <!-- ===========================
+                     LIVE GAUGE SECTION
+                ========================== -->
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Live Sensor Readings</h2>
+                        <p>Real-time circular gauge indicators</p>
+                    </div>
+                </div>
+
+                <div class="gauges-grid">
+
+                    <!-- GAS GAUGE -->
+                    <div class="gauge-container">
+                        <div class="gauge-wrapper">
+                            <svg class="gauge" viewBox="0 0 120 120">
+                                <circle class="gauge-background" cx="60" cy="60" r="50"/>
+                                <circle class="gauge-progress gas-gauge-progress" cx="60" cy="60" r="50" data-value="0"/>
+                                <text class="gauge-label" x="60" y="55">Gas</text>
+                                <text class="gauge-value" id="gas-value" x="60" y="75">-</text>
+                                <text class="gauge-unit" x="60" y="85">ppm</text>
+                            </svg>
+                        </div>
+                        <div class="gauge-status" id="gas-status">NORMAL</div>
+                    </div>
+
+                    <!-- PRESSURE GAUGE -->
+                    <div class="gauge-container">
+                        <div class="gauge-wrapper">
+                            <svg class="gauge" viewBox="0 0 120 120">
+                                <circle class="gauge-background" cx="60" cy="60" r="50"/>
+                                <circle class="gauge-progress pressure-gauge-progress" cx="60" cy="60" r="50" data-value="0"/>
+                                <text class="gauge-label" x="60" y="55">Pressure</text>
+                                <text class="gauge-value" id="pressure-value" x="60" y="75">-</text>
+                                <text class="gauge-unit" x="60" y="85">bar</text>
+                            </svg>
+                        </div>
+                        <div class="gauge-status" id="pressure-status">NORMAL</div>
+                    </div>
+
+                    <!-- TEMPERATURE GAUGE -->
+                    <div class="gauge-container">
+                        <div class="gauge-wrapper">
+                            <svg class="gauge" viewBox="0 0 120 120">
+                                <circle class="gauge-background" cx="60" cy="60" r="50"/>
+                                <circle class="gauge-progress temperature-gauge-progress" cx="60" cy="60" r="50" data-value="0"/>
+                                <text class="gauge-label" x="60" y="55">Temperature</text>
+                                <text class="gauge-value" id="temperature-value" x="60" y="75">-</text>
+                                <text class="gauge-unit" x="60" y="85">°C</text>
+                            </svg>
+                        </div>
+                        <div class="gauge-status" id="temperature-status">NORMAL</div>
+                    </div>
+
+                </div>
+
+                <!-- ===========================
+                     LIVE DATA TABLE
+                ========================== -->
+
+                <div class="panel data-table-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <span class="panel-label">REAL-TIME FEED</span>
+                            <h2>Latest Sensor Stream</h2>
+                        </div>
+                        <span class="update-badge" id="update-time">Just now</span>
+                    </div>
+
+                    <div class="data-table-wrapper">
+                        <table class="live-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Gas (ppm)</th>
+                                    <th>Pressure (bar)</th>
+                                    <th>Temperature (°C)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="live-data-tbody">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 20px; color: #999;">Loading data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <!-- ===========================
+                     THRESHOLD ALERTS
+                ========================== -->
+
+                <div class="thresholds-section">
+
+                    <div class="section-heading">
+                        <div>
+                            <h2>Sensor Thresholds</h2>
+                            <p>Critical alert limits</p>
+                        </div>
+                    </div>
+
+                    <div class="thresholds-grid">
+
+                        <div class="threshold-card">
+                            <div class="threshold-label">Gas</div>
+                            <div class="threshold-values">
+                                <div class="threshold-item warning">
+                                    <span class="threshold-name">⚠ Warning:</span>
+                                    <span class="threshold-value">50 ppm</span>
+                                </div>
+                                <div class="threshold-item critical">
+                                    <span class="threshold-name">🔴 Critical:</span>
+                                    <span class="threshold-value">80 ppm</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="threshold-card">
+                            <div class="threshold-label">Pressure</div>
+                            <div class="threshold-values">
+                                <div class="threshold-item warning">
+                                    <span class="threshold-name">⚠ Warning:</span>
+                                    <span class="threshold-value">2.5 bar</span>
+                                </div>
+                                <div class="threshold-item critical">
+                                    <span class="threshold-name">🔴 Critical:</span>
+                                    <span class="threshold-value">3.0 bar</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="threshold-card">
+                            <div class="threshold-label">Temperature</div>
+                            <div class="threshold-values">
+                                <div class="threshold-item warning">
+                                    <span class="threshold-name">⚠ Warning:</span>
+                                    <span class="threshold-value">35°C</span>
+                                </div>
+                                <div class="threshold-item critical">
+                                    <span class="threshold-name">🔴 Critical:</span>
+                                    <span class="threshold-value">40°C</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </section>
 
         </div>
@@ -552,6 +703,7 @@
 
     <script src="{{ url_for('static', filename='js/router.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/live-monitoring.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>
