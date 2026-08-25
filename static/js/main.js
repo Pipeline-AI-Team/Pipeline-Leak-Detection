@@ -13,17 +13,17 @@
  */
 function handleDashboard() {
     updateTopbar("Dashboard", "Real-time pipeline monitoring system");
-    // Chart.js handles its own sizing
-    // Chart will be initialized by dashboard.js after page load
+    // Stop live monitoring if it's running
+    if (LiveMonitoring) LiveMonitoring.stop();
 }
 
 /**
  * Live Monitoring Route Handler
  */
 function handleLiveMonitoring() {
-    updateTopbar("Live Monitoring", "Real-time sensor data stream");
-    // Placeholder for Live Monitoring functionality
-    // Will be populated in the next feature branch
+    updateTopbar("Live Monitoring", "Real-time sensor data stream with live updates");
+    // Initialize and start live monitoring
+    if (LiveMonitoring) LiveMonitoring.init();
 }
 
 /**
