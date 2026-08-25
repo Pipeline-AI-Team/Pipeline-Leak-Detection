@@ -93,8 +93,7 @@ class Router {
             }
         });
 
-        // Navigate to dashboard on load
-        this.navigate("dashboard");
+        // Don't auto-navigate here - let main.js handle it after routes are registered
     }
 }
 

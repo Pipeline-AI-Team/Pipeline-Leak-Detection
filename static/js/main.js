@@ -13,10 +13,8 @@
  */
 function handleDashboard() {
     updateTopbar("Dashboard", "Real-time pipeline monitoring system");
-    // Dashboard chart is initialized in dashboard.js
-    if (window.sensorChart) {
-        window.sensorChart.resize();
-    }
+    // Chart.js handles its own sizing
+    // Chart will be initialized by dashboard.js after page load
 }
 
 /**
@@ -84,6 +82,9 @@ document.addEventListener("DOMContentLoaded", function() {
     router.register("analytics", handleAnalytics);
     router.register("history", handleHistory);
     router.register("alerts", handleAlerts);
+    
+    // Navigate to dashboard after all routes are registered
+    router.navigate("dashboard");
     
     console.log("✅ Application initialized - SPA routing active");
     console.log("📄 Routes registered: dashboard, live-monitoring, analytics, history, alerts");
